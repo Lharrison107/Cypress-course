@@ -1,47 +1,12 @@
 
 
+describe('Our sute section', () => {
 
-describe('Our first suite', () => {
-
-    describe('Our sute section', () => {
-
-        beforeEach('code for every test', () => {
-            // repetative code EX: login
-        })
-
-        it('some test name', () => {
-
-        })
+    beforeEach('code for every test', () => {
+        // repetative code EX: login
     })
 
-    it('first test', () => {
+    it('some test name', () => {
 
     })
-
-    it('second test', () => {
-
-    })
-
-    it('third test', () => {
-
-    })
- 
-
-})
-
-describe('Our second suite', () => {
-
-    it('first test', () => {
-
-    })
-
-    it('second test', () => {
-
-    })
-
-    it('third test', () => {
-
-    })
- 
-
 })
