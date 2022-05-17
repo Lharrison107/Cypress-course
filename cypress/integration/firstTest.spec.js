@@ -2,7 +2,7 @@
 
 describe('Our sute section', () => {
 
-    it('some test name', () => {
+    it('first test', () => {
         //go to website
         cy.visit('/')
         cy.contains('Forms').click()
@@ -54,7 +54,7 @@ describe('Our sute section', () => {
         cy.contains('nb-card','Horizontal form').find('[type="email"]')
     })
 
-    it.only('then and wrap methods', () => {
+    it('then and wrap methods', () => {
         //go to website
         cy.visit('/')
         cy.contains('Forms').click()
@@ -89,5 +89,49 @@ describe('Our sute section', () => {
             
             
         })
+    })
+
+    it('invoke command', () => {
+        //go to website
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Form Layouts').click()
+        //3 WAYS TO DO THE SAME THING
+        //#1
+        cy.get('[for="exampleInputEmail1"]').should('contain','Email address')
+        //#2
+        cy.get('[for="exampleInputEmail1"]').then( Label => {
+            expect(Label.text()).to.equal('Email address')
+        })
+        //#3
+        cy.get('[for="exampleInputEmail1"]').invoke('text').then( text => {
+            expect(text).to.equal('Email address')
+        })
+
+        //EXAPMLES OF INVOKE
+        //checkbox
+        cy.contains('nb-card', 'Basic form')
+            .find('nb-checkbox')
+            .click()
+            .find('.custom-checkbox')
+            .invoke('attr', 'class')
+            // .should('contain','checked')
+            .then(classValue => {
+                expect(classValue).to.contain('checked')
+            })
+    })
+
+    it.only('assert property', () => {
+        //go to website
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Datepicker').click()
+
+        cy.contains('nb-card','Common Datepicker').find('input').then(input => {
+            cy.wrap(input).click()
+            cy.get('nb-calendar-day-picker').contains('17').click()
+            cy.wrap(input).invoke('prop', 'value').should('contain', 'May 17, 2022')
+        })
+        
     })
 })
