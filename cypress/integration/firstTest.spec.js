@@ -2,10 +2,6 @@
 
 describe('Our sute section', () => {
 
-    beforeEach('code for every test', () => {
-        // repetative code EX: login
-    })
-
     it('some test name', () => {
         //go to website
         cy.visit('/')
@@ -33,5 +29,28 @@ describe('Our sute section', () => {
         //MOST RECOMMENDED BY CYPRESS
         //create our own attribute
         cy.get('[data-cy="imputEmail1"]')
+    })
+
+    it('second test', () => {
+        //go to website
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Form Layouts').click()
+        //get by cypress specific attribute
+        cy.get('[data-cy="signInButton"]')
+        //looks for specific text
+        cy.contains('Sign in')
+        //looks for specific text and anatribute to go along with it. 
+        cy.contains('[status="warning"]','Sign in')
+        //get input by id then travel to parent form and find button in that form 
+        cy.get('#inputEmail3')
+            .parents('form')
+            .find('button')
+            .should('contain', 'Sign in')
+            .parents('form')
+            .find('nb-checkbox')
+            .click()
+        //find a specific element with oly the parent element
+        cy.contains('nb-card','Horizontal form').find('[type="email"]')
     })
 })
