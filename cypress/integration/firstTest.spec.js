@@ -53,4 +53,41 @@ describe('Our sute section', () => {
         //find a specific element with oly the parent element
         cy.contains('nb-card','Horizontal form').find('[type="email"]')
     })
+
+    it.only('then and wrap methods', () => {
+        //go to website
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Form Layouts').click()
+        // //find email in using the grid
+        // cy.contains('nb-card', 'Using the Grid').find('[class="label col-sm-3 col-form-label"]').should('contain', 'Email')
+        //  //find password in using the grid
+        // cy.contains('nb-card', 'Using the Grid').find('[for="inputPassword2"]').should('contain', 'Password')
+        // //find email in basic form
+        // cy.contains('nb-card', 'Basic form').find('[for="exampleInputEmail1"]').should('contain', 'Email')
+        //  //find password in basic form
+        // cy.contains('nb-card', 'Basic form').find('[for="exampleInputPassword1"]').should('contain', 'Password')
+
+        //condenced
+        cy.contains('nb-card', 'Using the Grid').then(firstForm => {
+            const emailLabelFirst = firstForm.find('[for="inputEmail1"]').text()
+            const passwordLabelFirst = firstForm.find('[for="inputPassword2"]').text()
+            
+            expect(emailLabelFirst).to.equal('Email')
+            expect(passwordLabelFirst).to.equal('Password')
+
+            const secondForm = cy.contains('nb-card', 'Basic form').then( secondForm => {
+                const emailLabelSecond = secondForm.find('[for="exampleInputEmail1"]').text()
+                expect(emailLabelSecond).to.equal('Email address')
+
+                const passwordLabelSecond = secondForm.find('[for="exampleInputPassword1"]').text()
+                expect(passwordLabelFirst).to.equal(passwordLabelSecond)
+                //convert jquery to cypress so you can use cyperss methods
+                cy.wrap(secondForm).find('[for="exampleInputPassword1"]').should('contain', 'Password')
+
+            })
+            
+            
+        })
+    })
 })
