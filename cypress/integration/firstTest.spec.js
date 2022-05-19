@@ -123,7 +123,7 @@ describe('Our sute section', () => {
             })
     })
 
-    it('assert property', () => {
+    it('datepicker', () => {
         //go to website
         cy.visit('/')
         cy.contains('Forms').click()
@@ -208,30 +208,32 @@ describe('Our sute section', () => {
 
     })
     
-    it.only('check boxes', () => {
+    it('check boxes', () => {
         //go to website
         cy.visit('/')
         cy.contains('Tables & Data').click()
         cy.contains('Smart Table').click()
-        ////#1
-        // cy.get('tbody').contains('tr', 'Larry').then( tableRow =>{
-        //     cy.wrap(tableRow).find('.nb-edit').click()
-        //     cy.wrap(tableRow).find('[placeholder="Age"]').clear().type('25')
-        //     cy.wrap(tableRow).find('.nb-checkmark').click()
-        //     cy.wrap(tableRow).find('td').eq(6).should('contain', '25')
+        //#1
+        cy.get('tbody').contains('tr', 'Larry').then( tableRow =>{
+            cy.wrap(tableRow).find('.nb-edit').click()
+            cy.wrap(tableRow).find('[placeholder="Age"]').clear().type('25')
+            cy.wrap(tableRow).find('.nb-checkmark').click()
+            cy.wrap(tableRow).find('td').eq(6).should('contain', '25')
 
-        // })
-        // //#2
-        // cy.get('thead').find('.nb-plus').click()
-        // cy.get('thead').find('tr').eq(2).then( tableRow => {
-        //     cy.wrap(tableRow).find('[placeholder="First Name"]').clear().type('John')
-        //     cy.wrap(tableRow).find('[placeholder="Last Name"]').clear().type('Doe') 
-        //     cy.wrap(tableRow).find('.nb-checkmark').click()
-        // })
-        // cy.get('tbody tr').first().find('td').then( tableColumns => {
-        //     cy.wrap(tableColumns).eq(2).should('contain', 'John')
-        //     cy.wrap(tableColumns).eq(3).should('contain', 'Doe')
-        // })
+        })
+
+        //#2
+        cy.get('thead').find('.nb-plus').click()
+        cy.get('thead').find('tr').eq(2).then( tableRow => {
+            cy.wrap(tableRow).find('[placeholder="First Name"]').clear().type('John')
+            cy.wrap(tableRow).find('[placeholder="Last Name"]').clear().type('Doe') 
+            cy.wrap(tableRow).find('.nb-checkmark').click()
+        })
+        cy.get('tbody tr').first().find('td').then( tableColumns => {
+            cy.wrap(tableColumns).eq(2).should('contain', 'John')
+            cy.wrap(tableColumns).eq(3).should('contain', 'Doe')
+        })
+
         //#3
         const age = [20, 30, 40, 200]
 
@@ -248,6 +250,37 @@ describe('Our sute section', () => {
             })
         })
         
+    })
+
+    it.only('smart datepickers', () => {
+        function selectDayFromCurrent (day) {
+            let date = new Date()
+            date.setDate(date.getDate() + day)
+            let futureDate = date.getDay()
+            let futureMonth = date.toLocaleString('default', {month: 'short'})
+            let dateAssert = futureMonth+' '+futureDate+', '+date.getFullYear()
+
+            cy.get('nb-calendar-navigation').invoke('attr', 'ng-reflect-date').then( dateAttribute => {
+                if(!dateAttribute.includes(futureMonth)) {
+                    cy.get('[data-name="chevron-right"]').click()
+                    selectDayFromCurrent(day)
+                } else {
+                    cy.get('nb-calendar-day-picker [class="day-cell ng-star-inserted"]').contains(futureDate).click()
+                }
+            })
+            return dateAssert
+        }
+        //go to website
+        cy.visit('/')
+        cy.contains('Forms').click()
+        cy.contains('Datepicker').click()
+       
+        cy.contains('nb-card','Common Datepicker').find('input').then(input => {
+            cy.wrap(input).click()
+            let dateAssert = selectDayFromCurrent(1)
+            cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert)
+        })
+
     })
 
 })
