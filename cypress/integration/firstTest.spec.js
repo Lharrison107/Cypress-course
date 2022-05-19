@@ -252,7 +252,7 @@ describe('Our sute section', () => {
         
     })
 
-    it.only('smart datepickers', () => {
+    it('smart datepickers', () => {
         function selectDayFromCurrent (day) {
             let date = new Date()
             date.setDate(date.getDate() + day)
@@ -282,5 +282,34 @@ describe('Our sute section', () => {
         })
 
     })
+
+    it('tool tips', () => {
+        cy.visit('/')
+        cy.contains('Modal & Overlays').click()
+        cy.contains('Tooltip').click()
+
+        cy.get('nb-card')
+            .contains('Default').click()
+        cy.get('nb-tooltip').should('contain', 'This is a tooltip')
+        
+    })
+
+    it.only('tool tips', () => {
+        cy.visit('/')
+        cy.contains('Tables & Data').click()
+        cy.contains('Smart Table').click()
+
+        const stub = cy.stub()
+        cy.on('window:confirm', stub)
+        cy.get('tbody tr').first().find('.nb-trash').click().then(() => {
+            expect(stub.getCall(0)).to.be.calledWith('Are you sure you want to delete?')
+        })
+        //my own fun test for actually deleting
+        // cy.get('tbody tr').first().find('.nb-trash').click()
+        // cy.on('window:confirm', () => true)
+        // cy.get('tbody tr').find('[class="ng-star-inserted"]').find('1').should('not.exist')
+    })
+
+ 
 
 })
