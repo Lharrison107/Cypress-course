@@ -288,13 +288,13 @@ describe('Our sute section', () => {
         cy.contains('Modal & Overlays').click()
         cy.contains('Tooltip').click()
 
-        cy.get('nb-card')
+        cy.contains('nb-card', 'Colored Tooltips')
             .contains('Default').click()
         cy.get('nb-tooltip').should('contain', 'This is a tooltip')
         
     })
 
-    it.only('tool tips', () => {
+    it('tool tips', () => {
         cy.visit('/')
         cy.contains('Tables & Data').click()
         cy.contains('Smart Table').click()
@@ -309,7 +309,5 @@ describe('Our sute section', () => {
         // cy.on('window:confirm', () => true)
         // cy.get('tbody tr').find('[class="ng-star-inserted"]').find('1').should('not.exist')
     })
-
- 
 
 })
