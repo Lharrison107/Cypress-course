@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-const { table } = require("console")
-
 describe('Our sute section', () => {
 
     it('first test', () => {
