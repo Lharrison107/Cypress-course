@@ -3,10 +3,11 @@
 import { onDatePicker } from "../support/page_objects/DatePickerPage"
 import { onFormLayoutPage } from "../support/page_objects/formLayoutsPage"
 import { navigateTo } from "../support/page_objects/NavigationPage"
+import { onSmartTable } from "../support/page_objects/SmartTablePage"
 
 describe('Our sute section', () => {
     beforeEach('open application', () => {
-        cy.visit('/')
+        cy.openHomePage()
     })
     
     it('verify navigation across the pages', () => {
@@ -24,15 +25,26 @@ describe('Our sute section', () => {
         navigateTo.windowPage()
     })
 
-    it.only('should submit inline using the grid and form without labels and pick a date on calendar', () => {
+    it('submitting forms on form layout page', () => {
         navigateTo.formLayoutsPage()
-        // onFormLayoutPage.submitInlineFormWithNameAndEmail('john', 'amuseddeer@gmail.com')
-        // onFormLayoutPage.submitBasicFormWithEmailAndPassword('Amuseddeer@gmail.com', 'Diesel123$')
-        // onFormLayoutPage.submitUsingTheGridFormWithEmialPasswordAndRadios('Amuseddeer@gmail.com', 'Diesel123$')
-        // onFormLayoutPage.submitFormWithoutLabelsWithRecipientsSubjectAndMassage('john and carol', 'Submitting the form', 'on the task of submitting the form blah blah blah')
+        onFormLayoutPage.submitInlineFormWithNameAndEmail('john', 'amuseddeer@gmail.com')
+        onFormLayoutPage.submitBasicFormWithEmailAndPassword('Amuseddeer@gmail.com', 'Diesel123$')
+        onFormLayoutPage.submitUsingTheGridFormWithEmialPasswordAndRadios('Amuseddeer@gmail.com', 'Diesel123$')
+        onFormLayoutPage.submitFormWithoutLabelsWithRecipientsSubjectAndMassage('john and carol', 'Submitting the form', 'on the task of submitting the form blah blah blah')
+    })
+
+    it('picking dates on datepicker', () => {
         navigateTo.datepickerPage()
         onDatePicker.selectCommanDatePickerDateFromToday(1)
         onDatePicker.selectDatePickerWithRangeFromToday(7, 14)
     })
+
+    it('manipulate the smart table', () => {
+        navigateTo.smartTablePage()
+        onSmartTable.createANewPerson('John', 'Doe', '@JD0402', 'Jdoe@gmail.com', 25)
+        onSmartTable.updateAgeByFirstName('John', 24)
+        onSmartTable.deleteRecordOffTable(2)
+    })
+
 
 })
